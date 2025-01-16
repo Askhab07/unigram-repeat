@@ -6,7 +6,7 @@ const Aside = () => {
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-14 h-14 bg-[#C4C4C4] rounded-full">
-            <img src="" alt="" />
+            {/* <img src="" alt="" /> */}
           </div>
           <div className="text-sm ">
             <h2 className="font-medium">johndoe</h2>
@@ -22,7 +22,7 @@ const Aside = () => {
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-[#C4C4C4] rounded-full">
-            <img src="" alt="" />
+            {/* <img src="" alt="" /> */}
           </div>
           <div className="text-sm ">
             <h2 className="font-medium">johndoe</h2>

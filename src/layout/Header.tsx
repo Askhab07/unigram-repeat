@@ -18,7 +18,7 @@ const Header: React.FC<IHeaderProps> = ({onClick}) => {
       <div className="w-[252px] h-9 pl-5 flex items-center gap-3 bg-[#EFEFEF] rounded-lg">
         <img src={search} alt="" />
         <input
-          className="bg-transparent"
+          className="bg-transparent outline-0"
           type="search"
           placeholder="Search"
           name=""
@@ -42,7 +42,7 @@ const Header: React.FC<IHeaderProps> = ({onClick}) => {
           <img src={likes} alt="" />
         </div>
         <div className='w-6 h-6 rounded-full bg-[#C4C4C4]'>
-            <img src="" alt="" />
+            {/* <img src="" alt="" /> */}
         </div>
       </nav>
     </header>

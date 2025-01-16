@@ -18,7 +18,7 @@ const Post = () => {
       <div className="w-full h-[60px] px-5 flex justify-between items-center bg-white rounded-t-[3px]">
         <div className="flex items-center gap-[14px]">
           <div className="w-8 h-8 bg-[#C4C4C4] rounded-full">
-            <img src="" alt="" />
+            {/* <img src="" alt="" /> */}
           </div>
           <h2 className="font-medium text-sm">johndoe</h2>
         </div>
