@@ -10,6 +10,7 @@ const initialState: IUserStoreState = {
     username: '',
   },
   isAuth: false,
+  isLoading: false,
 };
 
 const authSlice = createSlice({
@@ -18,16 +19,29 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    .addCase(authUser.fulfilled, (state, action: PayloadAction<IUser>) => {
+      .addCase(authUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(authUser.fulfilled, (state, action: PayloadAction<IUser>) => {
         state.user = action.payload;
         state.isAuth = true;
-      }
-    )
-    .addCase(validationToken.fulfilled, (state, action: PayloadAction<IUser>) => {
-        state.user = action.payload
-        state.isAuth = true
-      }
-    )
+        state.isLoading = false;
+      })
+      .addCase(authUser.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(validationToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(validationToken.fulfilled, (state, action: PayloadAction<IUser>) => {
+        state.user = action.payload;
+        state.isAuth = true;
+        state.isLoading = false;
+      })
+      .addCase(validationToken.rejected, (state) => {
+        state.isLoading = false;
+        state.isAuth = false;
+      });
   },
 });
 
