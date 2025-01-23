@@ -9,7 +9,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useAppSelector } from '../hooks/useAppSelector';
 
-const Post = ({ post, handleDeletePost, handleUpdatePost, setIsEditing }: any) => {
+const Post = ({ post, handleDeletePost, setIsEditing }: any) => {
   const [optionsActive, setOptionsActive] = useState(false);
   const [readMore, setReadMore] = useState(false);
   const {user} = useAppSelector(state => state.user);
@@ -71,7 +71,7 @@ const Post = ({ post, handleDeletePost, handleUpdatePost, setIsEditing }: any) =
           <h2 className="text-sm font-medium mb-1">
             {post.likes.length} likes
           </h2>
-          <h2 className="text-sm mb-[5px]">
+          <h2 className="text-sm mb-[5px] break-words">
             <span className="font-medium">{post.user.username} </span>
             {post.description.slice(
               0,

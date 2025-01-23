@@ -6,17 +6,20 @@ import CreatePublicModal from '../components/CreatePublicModal';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { postGet, postDelete, postUpdate } from '../store/reducer/postAction';
+import UpdatePostModal from '../components/UpdatePostModal';
 
 const Home = () => {
-  const [modalActive, setModalActive] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [newDescription, setNewDescription] = useState<string>('');
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 
+  const [modalActive, setModalActive] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [newDescription, setNewDescription] = useState<string>('');
+
   useEffect(() => {
     dispatch(postGet());
-  }, []);
+  }, [dispatch]);
 
   const handleCreate = () => {
     setModalActive(!modalActive);
@@ -45,6 +48,12 @@ const Home = () => {
           onClick={handleCreate}
         />
       )}
+      {isEditing && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-40"
+          onClick={() => setIsEditing(!isEditing)}
+        />
+      )}
       <div className="relative pt-6 flex justify-center gap-[35px]">
         <div className="flex flex-col-reverse gap-5">
           {posts.map((post) => (
@@ -56,11 +65,14 @@ const Home = () => {
               setIsEditing={setIsEditing}
             />
           ))}
-          {modalActive && (
-            <CreatePublicModal
+          {modalActive && <CreatePublicModal handleCreate={handleCreate} />}
+          {isEditing && (
+            <UpdatePostModal
+              posts={posts}
               isEditing={isEditing}
-              handleCreate={handleCreate}
+              newDescription={newDescription}
               setNewDescription={setNewDescription}
+              handleUpdatePost={handleUpdatePost}
             />
           )}
         </div>
