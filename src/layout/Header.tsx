@@ -7,11 +7,11 @@ import likes from '../assets/icons/likes.svg'
 import msg from '../assets/icons/msg.svg'
 import trends from '../assets/icons/trends.svg'
 
-interface IHeaderProps {
-  onClick: () => void
-}
+// interface IHeaderProps {
+//   setModalActive
+// }
 
-const Header: React.FC<IHeaderProps> = ({onClick}) => {
+const Header = ({setModalActive}: any) => {
   return (
     <header className="w-[1440px] h-[60px] flex items-center justify-center gap-[150px] bg-white">
       <img className="w-[103px]" src={instagram} alt="" />
@@ -32,7 +32,7 @@ const Header: React.FC<IHeaderProps> = ({onClick}) => {
         <div>
           <img src={msg} alt="" />
         </div>
-        <div onClick={onClick}>
+        <div onClick={() => setModalActive(true)}>
           <img src={add} alt="" />
         </div>
         <div>

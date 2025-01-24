@@ -1,7 +1,7 @@
 import React from 'react';
 import emojis from '../assets/icons/emojisgray.svg';
 
-const UpdatePostModal = ({newDescription, setNewDescription, isEditing, posts, handleUpdatePost }: any) => {
+const ModalUpdatePost = ({newDescription, setNewDescription, isEditing, posts, handleUpdatePost }: any) => {
   return (
     <>
       {isEditing && (
@@ -46,4 +46,4 @@ const UpdatePostModal = ({newDescription, setNewDescription, isEditing, posts, h
   );
 };
 
-export default UpdatePostModal;
+export default ModalUpdatePost;

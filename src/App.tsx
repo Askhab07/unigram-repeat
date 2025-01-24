@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Authorization from './pages/Authorization';
-import Home from './pages/Home';
+import HomePage from './pages/HomePage';
 import { useAppSelector } from './hooks/useAppSelector';
 import { setTokenBaseService } from './api/url';
 import { useAppDispatch } from './hooks/useAppDispatch';
@@ -38,7 +38,7 @@ function App() {
   return (
     <Routes>
       {isAuth ? (
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
       ) : (
         <Route path="/sign-in" element={<Authorization />} />
       )}
