@@ -7,10 +7,6 @@ import likes from '../assets/icons/likes.svg'
 import msg from '../assets/icons/msg.svg'
 import trends from '../assets/icons/trends.svg'
 
-// interface IHeaderProps {
-//   setModalActive
-// }
-
 const Header = ({setModalActive, setStepModal}: any) => {
   return (
     <header className="w-[1440px] h-[60px] flex items-center justify-center gap-[150px] bg-white">

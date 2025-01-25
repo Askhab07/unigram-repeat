@@ -1,30 +1,11 @@
 import React, { useEffect } from 'react';
-import back from '../assets/icons/arrowback.svg';
-import emojis from '../assets/icons/emojisgray.svg';
-import { useAppSelector } from '../hooks/useAppSelector';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { postAdd, postUpdate } from '../store/reducer/postAction';
+import back from '../../assets/icons/arrowback.svg';
+import emojis from '../../assets/icons/emojisgray.svg';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { postAdd, postUpdate } from '../../store/reducer/postAction';
 import Cookies from 'js-cookie';
-
-interface ModalAddPostSecondProps {
-  setModalActive: (active: boolean) => void;
-  setStepModal: (step: number) => void;
-  image: File | string | null;
-  setImage: (image: File | string | null) => void;
-  description: string;
-  setDescription: (description: string) => void;
-  postId?: string;
-  editingPost?: {
-    _id: string;
-    image?: string;
-    description?: string;
-  };
-  setEditingPost: (post: {
-    _id: string;
-    image?: string;
-    description?: string;
-  } | null) => void;
-}
+import { ModalAddPostSecondProps } from './modal';
 
 const ModalAddPostSecond: React.FC<ModalAddPostSecondProps> = ({
   setModalActive,
@@ -92,7 +73,13 @@ const ModalAddPostSecond: React.FC<ModalAddPostSecondProps> = ({
       <div className="h-[604px] flex gap-4">
         <img
           className="w-[599px] h-[607px] rounded-bl-3xl"
-          src={image ? (typeof image === 'string' ? image : URL.createObjectURL(image)) : ''}
+          src={
+            image
+              ? typeof image === 'string'
+                ? image
+                : URL.createObjectURL(image)
+              : ''
+          }
           alt={typeof image === 'string' ? 'Uploaded image' : image?.name || ''}
         />
         <div className="w-[317px] flex flex-col gap-[18px] mt-2.5 mr-6">

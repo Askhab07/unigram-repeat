@@ -61,7 +61,3 @@ function App() {
 }
 
 export default App;
-
-// поставить лайк - /posts/:id/like, headers: { "Authorization":  <token>}
-
-// убрать лайк - /posts/:id/unlike, headers: { "Authorization":  <token>}

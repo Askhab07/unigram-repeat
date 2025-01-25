@@ -6,7 +6,11 @@ interface ModalAddPostFirstProps {
   setImage: (image: File | null) => void;
 }
 
-const ModalAddPostFirst: React.FC<ModalAddPostFirstProps> = ({ setStepModal, image, setImage }) => {
+const ModalAddPostFirst: React.FC<ModalAddPostFirstProps> = ({
+  setStepModal,
+  image,
+  setImage,
+}) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleButtonClick = () => {

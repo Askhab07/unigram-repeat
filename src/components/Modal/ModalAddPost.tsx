@@ -1,14 +1,7 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import ModalAddPostSecond from './ModalAddPostSecond';
 import ModalAddPostFirst from './ModalAddPostFirst';
-
-interface ModalAddPostProps {
-  setModalActive: Dispatch<SetStateAction<boolean>>;
-  editingPost: any;
-  stepModal: number;
-  setStepModal: Dispatch<SetStateAction<number>>;
-  setEditingPost: Dispatch<SetStateAction<any>>;
-}
+import { ModalAddPostProps } from './modal';
 
 const ModalAddPost: React.FC<ModalAddPostProps> = ({
   setModalActive,

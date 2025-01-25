@@ -2,13 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { baseService } from '../../api/url';
 import Cookies from 'js-cookie';
 
-interface ApiError {
-  response?: {
-    data: any;
-  };
-  message: string;
-}
-
 export const postGet = createAsyncThunk('post/postGet', async () => {
   const response = await baseService.get('/posts');
   return response.data;
@@ -96,8 +89,6 @@ export const postLikeAdd = createAsyncThunk(
 export const postLikeRemove = createAsyncThunk(
   'posts/postLikeRemove',
   async (postId: string) => {
-    console.log('Post ID:', postId);
-    
     try {
       const token = Cookies.get('token');
 

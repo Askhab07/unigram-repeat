@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../layout/Header';
-import Post from '../components/Post';
-import Aside from '../components/Aside';
+import Post from '../components/Post/Post';
+import Aside from '../components/Aside/Aside';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { postDelete, postGet } from '../store/reducer/postAction';
-import ModalAddPost from '../components/ModalAddPost';
+import ModalAddPost from '../components//Modal/ModalAddPost';
 
 const HomePage = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -67,4 +67,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
