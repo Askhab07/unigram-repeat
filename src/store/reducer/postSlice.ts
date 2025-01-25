@@ -44,7 +44,7 @@ const postSlice = createSlice({
       .addCase(postUpdate.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
-      });
+      })
   },
 });
 

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import options from '../assets/icons/options.svg';
 import likes from '../assets/icons/likes.svg';
+import likesred from '../assets/icons/likesred.svg';
 import comments from '../assets/icons/comments.svg';
 import share from '../assets/icons/share.svg';
 import save from '../assets/icons/save.svg';
 import emojis from '../assets/icons/emojis.svg';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { useAppSelector } from '../hooks/useAppSelector';
+import { useAppSelector,  } from '../hooks/useAppSelector';
+import {useAppDispatch} from '../hooks/useAppDispatch';
+import { postLikeAdd, postLikeRemove } from '../store/reducer/postAction';
 
 const Post = ({
   post,
@@ -15,10 +18,23 @@ const Post = ({
   setModalActive,
   setEditingPost,
   setStepModal,
+  refreshPosts
 }: any) => {
   const [optionsActive, setOptionsActive] = useState(false);
   const [readMore, setReadMore] = useState(false);
   const { user } = useAppSelector((state) => state.user);
+  const [liked, setLiked] = useState(post.likes.includes(user._id));
+  const dispatch = useAppDispatch();
+  
+  const handleLike = async () => {
+    if (liked) {
+      await dispatch(postLikeRemove(post._id)).unwrap();
+    } else {
+      await dispatch(postLikeAdd(post._id)).unwrap();
+    }
+    setLiked(!liked);
+    refreshPosts();
+  };
 
   const editingPost = () => {
     setModalActive(true);
@@ -83,7 +99,7 @@ const Post = ({
       <div className="px-5 pb-[23.5px] bg-white">
         <div className="flex justify-between py-[15px]">
           <div className="flex gap-5">
-            <img src={likes} alt="" />
+            <img src={liked ? likesred : likes} alt="" onClick={handleLike} />
             <img src={comments} alt="" />
             <img src={share} alt="" />
           </div>

@@ -30,6 +30,10 @@ const HomePage = () => {
     dispatch(postDelete(postId)).unwrap();
   };
 
+  const refreshPosts = () => {
+    dispatch(postGet());
+  };
+
   return (
     <div className="w-[1440px] h-full mx-auto pb-10 bg-[#F9F9F9]">
       <Header setModalActive={setModalActive} setStepModal={setStepModal} />
@@ -43,6 +47,7 @@ const HomePage = () => {
               setModalActive={setModalActive}
               setEditingPost={setEditingPost}
               setStepModal={setStepModal}
+              refreshPosts={refreshPosts}
             />
           ))}
           {modalActive && (
@@ -62,3 +67,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+

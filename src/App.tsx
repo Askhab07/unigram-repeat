@@ -62,18 +62,6 @@ function App() {
 
 export default App;
 
-// авторизация - /user/sign-in, post, body: { username: string, password:string }
-
-// получение пользователя - /user, get, headers: { "Authorization":  <token>}
-
-// получение всех постов - /posts, get
-
-// создание поста - /posts, post, body: { description: string, image: File},  headers: { "Authorization":  <token>}
-
-// удаление поста - /posts/:id, delete, headers: { "Authorization":  <token>}
-
-// изменение поста - /posts/:id, patch, { description: string }, headers: { "Authorization":  <token>}
-
 // поставить лайк - /posts/:id/like, headers: { "Authorization":  <token>}
 
 // убрать лайк - /posts/:id/unlike, headers: { "Authorization":  <token>}

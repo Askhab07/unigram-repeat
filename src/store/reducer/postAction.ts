@@ -2,6 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { baseService } from '../../api/url';
 import Cookies from 'js-cookie';
 
+interface ApiError {
+  response?: {
+    data: any;
+  };
+  message: string;
+}
+
 export const postGet = createAsyncThunk('post/postGet', async () => {
   const response = await baseService.get('/posts');
   return response.data;
@@ -35,7 +42,6 @@ export const postUpdate = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-
       const token = Cookies.get('token');
 
       if (!token) {
@@ -55,9 +61,63 @@ export const postUpdate = createAsyncThunk(
     } catch (error: any) {
       console.error('Error updating post:', error);
 
-      return rejectWithValue(
-        error.response?.data || 'Failed to update post'
+      return rejectWithValue(error.response?.data || 'Failed to update post');
+    }
+  }
+);
+
+export const postLikeAdd = createAsyncThunk(
+  'posts/postLikeAdd',
+  async (postId: string) => {
+    try {
+      const token = Cookies.get('token');
+
+      if (!token) {
+        throw new Error('Authorization token is missing');
+      }
+
+      const response = await baseService.post(
+        `/posts/${postId}/like`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error like add:', error);
+      }
+    }
+  }
+);
+
+export const postLikeRemove = createAsyncThunk(
+  'posts/postLikeRemove',
+  async (postId: string) => {
+    console.log('Post ID:', postId);
+    
+    try {
+      const token = Cookies.get('token');
+
+      if (!token) {
+        throw new Error('Authorization token is missing');
+      }
+
+      const response = await baseService.post(
+        `/posts/${postId}/unlike`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error like remove:', error);
+      }
     }
   }
 );

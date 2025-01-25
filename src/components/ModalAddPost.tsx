@@ -10,7 +10,13 @@ interface ModalAddPostProps {
   setEditingPost: Dispatch<SetStateAction<any>>;
 }
 
-const ModalAddPost: React.FC<ModalAddPostProps> = ({ setModalActive, editingPost, stepModal, setStepModal, setEditingPost }) => {
+const ModalAddPost: React.FC<ModalAddPostProps> = ({
+  setModalActive,
+  editingPost,
+  stepModal,
+  setStepModal,
+  setEditingPost,
+}) => {
   const [image, setImage] = useState<File | string | null>(null);
   const [description, setDescription] = useState('');
 
@@ -18,7 +24,10 @@ const ModalAddPost: React.FC<ModalAddPostProps> = ({ setModalActive, editingPost
     <>
       <div
         className="fixed inset-0 bg-black opacity-50 z-40"
-        onClick={() => setModalActive(false)}
+        onClick={() => {
+          setModalActive(false);
+          setEditingPost(null);
+        }}
       />
       {stepModal === 1 && (
         <ModalAddPostFirst
