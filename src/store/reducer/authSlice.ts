@@ -9,6 +9,7 @@ const initialState: IUserStoreState = {
     avatar: '',
     username: '',
   },
+  token: '',
   isAuth: false,
   isLoading: false,
 };

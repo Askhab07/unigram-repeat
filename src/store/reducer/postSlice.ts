@@ -37,20 +37,10 @@ const postSlice = createSlice({
       .addCase(postUpdate.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(
-        postUpdate.fulfilled,
-        (
-          state,
-          action: PayloadAction<{ postId: string; description: string }>
-        ) => {
-          const { postId, description } = action.payload;
-          const post = state.posts.find((post) => post._id === postId);
-          if (post) {
-            post.description = description;
-          }
-          state.isLoading = false;
-        }
-      )
+      .addCase(postUpdate.fulfilled, (state, action) => {
+        const updatedPost = action.payload;
+        state.posts = state.posts.map((post) => post._id === updatedPost._id ? updatedPost : post);
+      })
       .addCase(postUpdate.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;

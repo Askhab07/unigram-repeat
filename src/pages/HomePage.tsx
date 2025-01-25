@@ -4,64 +4,56 @@ import Post from '../components/Post';
 import Aside from '../components/Aside';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { postGet } from '../store/reducer/postAction';
+import { postDelete, postGet } from '../store/reducer/postAction';
 import ModalAddPost from '../components/ModalAddPost';
-// import UpdatePostModal from '../components/UpdatePostModal';
 
 const HomePage = () => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 
   const [modalActive, setModalActive] = useState(false);
+  const [stepModal, setStepModal] = useState(1);
+  const [editingPost, setEditingPost] = useState();
 
-  // const [isEditing, setIsEditing] = useState(false);
-
-  // const [newDescription, setNewDescription] = useState('');
+  useEffect(() => {
+    document.body.style.overflow = modalActive ? 'hidden' : 'scroll';
+    return () => {
+      document.body.style.overflow = 'scroll';
+    };
+  }, [modalActive]);
 
   useEffect(() => {
     dispatch(postGet());
   }, [dispatch]);
 
-  // const handleDeletePost = (postId: string) => {
-  //   dispatch(postDelete(postId));
-  // };
-
-  // const handleUpdatePost = async (postId: string) => {
-  //   try {
-  //     await dispatch(
-  //       postUpdate({ postId, description: newDescription })
-  //     ).unwrap();
-  //   } catch (error) {
-  //     console.error('Error updating post:', error);
-  //   }
-  // };
+  const handleDeletePost = (postId: string) => {
+    dispatch(postDelete(postId)).unwrap();
+  };
 
   return (
     <div className="w-[1440px] h-full mx-auto pb-10 bg-[#F9F9F9]">
-      <Header setModalActive={setModalActive} />
-      {/* {isEditing && (
-      )} */}
+      <Header setModalActive={setModalActive} setStepModal={setStepModal} />
       <div className="relative pt-6 flex justify-center gap-[35px]">
         <div className="flex flex-col-reverse gap-5">
           {posts.map((post) => (
             <Post
               key={post._id}
               post={post}
-              // handleDeletePost={handleDeletePost}
-              // handleUpdatePost={handleUpdatePost}
-              // setIsEditing={setIsEditing}
+              handleDeletePost={handleDeletePost}
+              setModalActive={setModalActive}
+              setEditingPost={setEditingPost}
+              setStepModal={setStepModal}
             />
           ))}
-          {modalActive && <ModalAddPost setModalActive={setModalActive}/>}
-          {/* {isEditing && (
-            <UpdatePostModal
-              posts={posts}
-              isEditing={isEditing}
-              newDescription={newDescription}
-              setNewDescription={setNewDescription}
-              handleUpdatePost={handleUpdatePost}
+          {modalActive && (
+            <ModalAddPost
+              setModalActive={setModalActive}
+              editingPost={editingPost}
+              stepModal={stepModal}
+              setStepModal={setStepModal}
+              setEditingPost={setEditingPost}
             />
-          )} */}
+          )}
         </div>
         <Aside />
       </div>

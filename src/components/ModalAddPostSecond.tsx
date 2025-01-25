@@ -1,39 +1,83 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import back from '../assets/icons/arrowback.svg';
 import emojis from '../assets/icons/emojisgray.svg';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { postAdd } from '../store/reducer/postAction';
+import { postAdd, postUpdate } from '../store/reducer/postAction';
 import Cookies from 'js-cookie';
 
-const ModalAddPostSecond = ({setModalActive, setStepModal, image, setImage }: any) => {
+interface ModalAddPostSecondProps {
+  setModalActive: (active: boolean) => void;
+  setStepModal: (step: number) => void;
+  image: File | string | null;
+  setImage: (image: File | string | null) => void;
+  description: string;
+  setDescription: (description: string) => void;
+  postId?: string;
+  editingPost?: {
+    _id: string;
+    image?: string;
+    description?: string;
+  };
+  setEditingPost: (post: {
+    _id: string;
+    image?: string;
+    description?: string;
+  } | null) => void;
+}
+
+const ModalAddPostSecond: React.FC<ModalAddPostSecondProps> = ({
+  setModalActive,
+  setStepModal,
+  image,
+  setImage,
+  description,
+  setDescription,
+  postId,
+  editingPost,
+  setEditingPost,
+}) => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const [description, setDescription] = useState('');
+  useEffect(() => {
+    if (editingPost) {
+      setImage(editingPost.image || null);
+      setDescription(editingPost.description || '');
+    }
+  }, [editingPost, setImage, setDescription]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const formData = new FormData();
-    if (image) formData.append('image', image);
+    if (image && typeof image !== 'string') {
+      formData.append('image', image);
+    }
     formData.append('description', description);
     formData.append('user', Cookies.get('token') || '');
     formData.append('created_at', new Date().toISOString());
 
-    dispatch(postAdd(formData));
+    if (postId) {
+      dispatch(postUpdate({ postId, description }));
+    } else {
+      dispatch(postAdd(formData));
+    }
+
     setDescription('');
     setImage(null);
     setModalActive(false);
+    setEditingPost(null);
   };
 
   return (
-    <div className="fixed z-50 top-[10%] left-[17.5%]  w-[956px] h-[677px] bg-white shadow-2xl rounded-3xl">
+    <div className="fixed z-50 top-10 left-[17.5%]  w-[956px] h-[677px] bg-white shadow-2xl rounded-3xl">
       <div className="h-[70px] flex items-center justify-between px-6 border-b-[1px] border-[#DBDBDB]">
         <button
           className="font-semibold text-lg text-[#0095F6]"
           onClick={() => setStepModal(1)}
         >
-          <img src={back} alt="" />
+          <img src={back} alt="Back" />
         </button>
         <h2 className="flex-1 flex justify-center ml-20 font-bold text-xl">
           Создание публикации
@@ -48,8 +92,8 @@ const ModalAddPostSecond = ({setModalActive, setStepModal, image, setImage }: an
       <div className="h-[604px] flex gap-4">
         <img
           className="w-[599px] h-[607px] rounded-bl-3xl"
-          src={image ? URL.createObjectURL(image) : ''}
-          alt={image?.name}
+          src={image ? (typeof image === 'string' ? image : URL.createObjectURL(image)) : ''}
+          alt={typeof image === 'string' ? 'Uploaded image' : image?.name || ''}
         />
         <div className="w-[317px] flex flex-col gap-[18px] mt-2.5 mr-6">
           <div className="flex items-center gap-2.5">
@@ -64,7 +108,7 @@ const ModalAddPostSecond = ({setModalActive, setStepModal, image, setImage }: an
             maxLength={2200}
           />
           <div className="flex justify-between items-center">
-            <img className="" src={emojis} alt="" />
+            <img src={emojis} alt="Emojis" />
             <h2 className="text-[#999999] text-sm font-medium">
               {description.length}/2,200
             </h2>

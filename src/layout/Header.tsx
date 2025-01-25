@@ -11,7 +11,7 @@ import trends from '../assets/icons/trends.svg'
 //   setModalActive
 // }
 
-const Header = ({setModalActive}: any) => {
+const Header = ({setModalActive, setStepModal}: any) => {
   return (
     <header className="w-[1440px] h-[60px] flex items-center justify-center gap-[150px] bg-white">
       <img className="w-[103px]" src={instagram} alt="" />
@@ -32,7 +32,10 @@ const Header = ({setModalActive}: any) => {
         <div>
           <img src={msg} alt="" />
         </div>
-        <div onClick={() => setModalActive(true)}>
+        <div onClick={() => {
+          setModalActive(true)
+          setStepModal(1)
+        }}>
           <img src={add} alt="" />
         </div>
         <div>

@@ -9,10 +9,22 @@ import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useAppSelector } from '../hooks/useAppSelector';
 
-const Post = ({ post, handleDeletePost, setIsEditing }: any) => {
+const Post = ({
+  post,
+  handleDeletePost,
+  setModalActive,
+  setEditingPost,
+  setStepModal,
+}: any) => {
   const [optionsActive, setOptionsActive] = useState(false);
   const [readMore, setReadMore] = useState(false);
-  const {user} = useAppSelector(state => state.user);
+  const { user } = useAppSelector((state) => state.user);
+
+  const editingPost = () => {
+    setModalActive(true);
+    setStepModal(2);
+    setEditingPost(post);
+  };
 
   const handleOptions = () => {
     setOptionsActive(!optionsActive);
@@ -38,19 +50,29 @@ const Post = ({ post, handleDeletePost, setIsEditing }: any) => {
           </div>
           <h2 className="font-medium text-sm">{post.user.username}</h2>
         </div>
-        {user ? <div className="relative" onClick={handleOptions}>
-          <img src={options} alt="" />
-          {optionsActive && (
-            <div className="absolute -right-5">
-              <button className="w-[116px] h-[26px] bg-[#2B3138] rounded-full text-white font-bold text-[11px] mb-1" onClick={() => setIsEditing(true)}>
-                Edit
-              </button>
-              <button className="w-[116px] h-[26px] bg-[#2B3138] rounded-full text-white font-bold text-[11px]" onClick={() => handleDeletePost(post._id)}>
-                Delete
-              </button>
-            </div>
-          )}
-        </div> : ''}
+        {user.username === post.user.username ? (
+          <div className="relative" onClick={handleOptions}>
+            <img src={options} alt="" />
+            {optionsActive && (
+              <div className="absolute -right-5">
+                <button
+                  className="w-[116px] h-[26px] bg-[#2B3138] rounded-full text-white font-bold text-[11px] mb-1"
+                  onClick={editingPost}
+                >
+                  Edit
+                </button>
+                <button
+                  className="w-[116px] h-[26px] bg-[#2B3138] rounded-full text-white font-bold text-[11px]"
+                  onClick={() => handleDeletePost(post._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <div className="flex justify-center items-center w-full h-[600px] bg-[#C4C4C4]">
         {/* <img src={post.image} alt="" /> */}

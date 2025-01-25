@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { baseService } from '../../api/url';
+import Cookies from 'js-cookie';
 
 export const postGet = createAsyncThunk('post/postGet', async () => {
   const response = await baseService.get('/posts');
@@ -29,13 +30,34 @@ export const postDelete = createAsyncThunk(
 
 export const postUpdate = createAsyncThunk(
   'posts/postUpdate',
-  async ({postId, description}: { postId: string; description: string }, thunkApi) => {
+  async (
+    { postId, description }: { postId: string; description: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await baseService.patch(`/posts/${postId}`, {description});
-      return {postId, description: response.data.description}
-    } catch (error) {
-      console.error('Error updating post:', error)
-      return thunkApi.rejectWithValue(error)
+
+      const token = Cookies.get('token');
+
+      if (!token) {
+        throw new Error('Authorization token is missing');
+      }
+
+      const response = await baseService.patch(
+        `/posts/${postId}`,
+        { description },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      console.error('Error updating post:', error);
+
+      return rejectWithValue(
+        error.response?.data || 'Failed to update post'
+      );
     }
   }
-)
+);
